@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,9 +36,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO login(String username, String password) {
+    public boolean login(String username, String password) {
         User user = userRepository.findOneByUsername(username);
-        return new UserDTO(user);
+        if(user.getId() != null){
+            return Objects.equals(password, user.getPassword());
+        }
+        return false;
     }
-
 }

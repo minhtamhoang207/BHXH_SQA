@@ -32,27 +32,86 @@ public class UserController {
             HttpServletRequest request
     ){
         RegisterDTO registerDTO = new RegisterDTO();
-        registerDTO.setUsername("tamhm");
-        registerDTO.setPassword("123456a@");
-        registerDTO.setAddress("ABC dia chi xyz");
-        registerDTO.setCccd("238719237912739218");
-        registerDTO.setEmail("minhtamhoang207@gmail.com");
-        registerDTO.setFullName("Hoang Minh Tommm");
+        registerDTO.setUsername(request.getParameter("username"));
+        registerDTO.setPassword(request.getParameter("password"));
+        registerDTO.setFullName(request.getParameter("confirm_password"));
+        registerDTO.setCccd(request.getParameter("citizen_id"));
+        registerDTO.setAddress(request.getParameter("address"));
+        registerDTO.setPhone(request.getParameter("phone_number"));
+        registerDTO.setEmail(request.getParameter("email"));
 
         User user = new User();
-        user.setAddress(registerDTO.getAddress());
-        user.setUsername(registerDTO.getUsername());
-        user.setPassword(registerDTO.getPassword());
-        user.setCccd(registerDTO.getCccd());
-        user.setEmail(registerDTO.getEmail());
-        user.setFullName(registerDTO.getFullName());
-        try {
-            System.out.println(user);
-            userRepository.save(user);
-            return "redirect:home_page";
-        } catch (Exception e){
-            e.printStackTrace();
+        if(validInfo(registerDTO, model, request)){
+            user.setUsername(registerDTO.getUsername());
+            user.setPassword(registerDTO.getPassword());
+            user.setFullName(registerDTO.getFullName());
+            user.setCccd(registerDTO.getCccd());
+            user.setAddress(registerDTO.getAddress());
+            user.setPhone(registerDTO.getPhone());
+            user.setEmail(registerDTO.getEmail());
+
+            try {
+                userRepository.save(user);
+                return "redirect:login";
+            } catch (Exception e){
+                e.printStackTrace();
+                return "register";
+            }
+        } else {
             return "register";
         }
+    }
+
+    Boolean validInfo(RegisterDTO registerDTO, ModelMap model, HttpServletRequest request){
+        if(!registerDTO.getUsername().isEmpty()){
+            if(registerDTO.getUsername().length() < 6){
+                model.put("errorMessage", "Tên đăng nhập phải chứa từ 6 kí tự");
+                return false;
+            }
+        } else {
+            model.put("errorMessage", "Tên đăng nhập không được để trống");
+            return false;
+        }
+
+        if(!registerDTO.getPassword().isEmpty()){
+            if(registerDTO.getPassword().length() < 6){
+                model.put("errorMessage", "Mật khẩu phải chứa từ 6 kí tự");
+                return false;
+            } else {
+                if (!registerDTO.getPassword().equals(request.getParameter("confirm_password"))) {
+                    model.put("errorMessage", "Mật khẩu không khớp");
+                    return false;
+                }
+            }
+        } else {
+            model.put("errorMessage", "Vui lòng nhập mật khẩu");
+            return false;
+        }
+
+        if(registerDTO.getFullName().isEmpty()){
+            model.put("errorMessage", "Vui lòng nhập Họ và tên");
+            return false;
+        }
+
+        if(registerDTO.getCccd().isEmpty()){
+            model.put("errorMessage", "Vui lòng nhập số CCCD/CMND/Hộ chiếu");
+            return false;
+        }
+
+        if(registerDTO.getAddress().isEmpty()){
+            model.put("errorMessage", "Vui lòng nhập địa chỉ");
+            return false;
+        }
+
+        if(registerDTO.getPhone().isEmpty()){
+            model.put("errorMessage", "Vui lòng nhập số điện thoại");
+            return false;
+        }
+
+        if(registerDTO.getEmail().isEmpty()){
+            model.put("errorMessage", "Vui lòng nhập thư điện tử");
+            return false;
+        }
+        return true;
     }
 }

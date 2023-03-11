@@ -12,4 +12,9 @@ public class HomePageController {
     public String showHomePage(ModelMap model){
         return "home_page";
     }
+
+    @RequestMapping(value="/personal_insurance", method = RequestMethod.GET)
+    public String showPersonalInsurance(ModelMap model){
+        return "personal_insurance";
+    }
 }

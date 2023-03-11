@@ -1,7 +1,6 @@
 package com.tom.bhxhsqa.controller;
 
 import com.tom.bhxhsqa.dto.UserDTO;
-import com.tom.bhxhsqa.service.LoginService;
 import com.tom.bhxhsqa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Optional;
 
 @Controller
 @SessionAttributes("name")
@@ -28,27 +28,29 @@ public class LoginController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(
             ModelMap model,
-            HttpServletRequest request,
-            @RequestParam String name,
-            @RequestParam String password
+            HttpServletRequest request
     ){
-        String userType = request.getParameter("userType");
-        UserDTO user = userService.login(name, password);
-        System.out.println(user == null);
-        if (user == null) {
-            model.put("errorMessage", "Invalid Credentials");
-            return "login";
-        } else if( userType == null){
+        String userType = request.getParameter("user_type");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        if( userType == null){
             model.put("errorMessage", "Vui long chon user type");
             return "login";
+        } else {
+            try {
+                boolean loginStatus = userService.login(username, password);
+                if (!loginStatus) {
+                    model.put("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng");
+                    return "login";
+                } else {
+                    return "redirect:personal_insurance";
+                }
+            } catch (Exception e){
+                model.put("errorMessage", "Đã xảy ra lỗi vui lòng thử lại sau");
+            }
         }
-
-        model.put("name", name);
-        model.put("password", password);
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-
-        return "redirect:home_page";
+        return "login";
     }
 
 }
