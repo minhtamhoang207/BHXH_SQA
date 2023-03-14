@@ -24,11 +24,6 @@
                 </div>
             </div>
 
-            <div id="user_type">
-                <input type="radio" name="user_type" value=1>Ca nhan</input>
-                <input type="radio" name="user_type" value=2>Doanh nghiep</input>
-            </div>
-
             <div class="signup__body">
 
                 <div class="row">

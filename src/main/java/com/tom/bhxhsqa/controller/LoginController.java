@@ -1,6 +1,7 @@
 package com.tom.bhxhsqa.controller;
 
 import com.tom.bhxhsqa.dto.UserDTO;
+import com.tom.bhxhsqa.entity.User;
 import com.tom.bhxhsqa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
@@ -28,28 +30,33 @@ public class LoginController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String showWelcomePage(
             ModelMap model,
+            HttpSession session,
             HttpServletRequest request
     ){
         String userType = request.getParameter("user_type");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if( userType == null){
-            model.put("errorMessage", "Vui long chon user type");
-            return "login";
-        } else {
-            try {
-                boolean loginStatus = userService.login(username, password);
-                if (!loginStatus) {
-                    model.put("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng");
-                    return "login";
-                } else {
-                    return "redirect:personal_insurance";
+        try {
+            long userID = userService.login(username, password);
+            if (userID == -1) {
+                model.put("errorMessage", "Tên đăng nhập hoặc mật khẩu không đúng");
+                return "login";
+            } else {
+            	User user = userService.getUserByName(username);
+            	if(user.getIsCompanyAccount()) {
+                    session.setAttribute("id", userID);
+            		return "redirect:homepage-company";
+            	} else {
+                    session.setAttribute("id", userID);
+                    return "redirect:homepage-personal";
                 }
-            } catch (Exception e){
-                model.put("errorMessage", "Đã xảy ra lỗi vui lòng thử lại sau");
+            	
             }
+        } catch (Exception e){
+            model.put("errorMessage", "Đã xảy ra lỗi vui lòng thử lại sau");
         }
+        
         return "login";
     }
 

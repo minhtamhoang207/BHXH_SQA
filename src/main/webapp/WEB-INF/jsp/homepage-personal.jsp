@@ -14,13 +14,13 @@
 
 <div class="container">
         <div style="display: flex; justify-content: center;">
-            <a class="btn" href="/register-personal">
-               Cá nhân
+            <a class="btn" href="/update-info-personal">
+               Cập nhật thông tin
             </a>
         </div>
         <div style="display: flex; justify-content: center;">
-            <a class="btn" href="/register-company">
-               Doanh nghiệp
+            <a class="btn" href="/payment-personal">
+               Thanh toán
             </a>
         </div>
 

@@ -36,11 +36,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean login(String username, String password) {
+    public long login(String username, String password) {
         User user = userRepository.findOneByUsername(username);
         if(user.getId() != null){
-            return Objects.equals(password, user.getPassword());
+            if(Objects.equals(password, user.getPassword())){
+                return user.getId();
+            }
         }
-        return false;
+        return -1;
+    }
+
+	@Override
+	public User getUserByName(String name) {
+		User user = userRepository.findOneByUsername(name);
+        if(user.getId() != null){
+            return user;
+        }
+        return null;
+	}
+
+    @Override
+    public void updateUserInfo(User user){
+        userRepository.save(user);
     }
 }

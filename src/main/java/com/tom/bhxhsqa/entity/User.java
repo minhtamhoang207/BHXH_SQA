@@ -48,8 +48,12 @@ public class User {
     @Column(name = "email")
     @NotNull
     private String email;
+    
+    @Column(name = "is_company_account")
+    private Boolean isCompanyAccount;
 
     // Thong tin khai bao
+    
     @Column(name = "type_user") // 1: Hop dong, 2: tu do
     private Integer typeUser;
 
@@ -98,7 +102,23 @@ public class User {
         this.maDonVi = maDonVi;
     }
 
-    public String getUsername() {
+    public Boolean getIsCompanyAccount() {
+		return isCompanyAccount;
+	}
+
+	public void setIsCompanyAccount(Boolean isCompanyAccount) {
+		this.isCompanyAccount = isCompanyAccount;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
         return username;
     }
 

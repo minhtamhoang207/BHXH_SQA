@@ -6,8 +6,9 @@ import javax.persistence.*;
 @Table(name = "tbl_thanhtoan")
 public class Payment {
     @Id
-    @SequenceGenerator(name = "id_seq", sequenceName = "item_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    @SequenceGenerator(name = "id_seq", sequenceName = "item_id_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id_seq")
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
