@@ -64,7 +64,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         Optional<User> user = userRepository.findById(id);
-        return user.get();
+        if(user.isPresent())
+            return user.get();
+        else
+            return null;
     }
 
     @Override
@@ -99,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean removeUser(User currentUser, User removedUser) {
-        if (currentUser.getMaDonVi().equalsIgnoreCase(removedUser.getMaDonVi()) && currentUser.getIsCompanyAccount() == true){
+        if (currentUser.getMaDonVi().equalsIgnoreCase(removedUser.getMaDonVi()) && currentUser.getIsCompanyAccount()){
             userRepository.deleteById(removedUser.getId());
             return true;
         }

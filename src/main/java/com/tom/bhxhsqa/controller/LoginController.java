@@ -46,9 +46,11 @@ public class LoginController {
             	User user = userService.getUserByName(username);
             	if(user.getIsCompanyAccount()) {
                     session.setAttribute("id", userID);
+                    session.setAttribute("user", user);
             		return "redirect:homepage-company";
             	} else {
                     session.setAttribute("id", userID);
+                    session.setAttribute("user", user);
                     return "redirect:homepage-personal";
                 }
             	
