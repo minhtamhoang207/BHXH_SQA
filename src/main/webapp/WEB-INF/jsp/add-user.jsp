@@ -38,7 +38,7 @@
 				<div class="row">
 					<div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu </div>
 					<div class="col-8">
-						<input path="" type="text" class="signup__input" value="${user.email}" placeholder="" name="citizen_id">
+						<input path="" type="text" class="signup__input" value="${user.cccd}" placeholder="" name="citizen_id">
 					</div>
 				</div>
 
@@ -86,7 +86,7 @@
 
 			</div>
 		</div>
-
+		<h5 style="margin-left: 500px;"><font color="red">${errorMessage}</font></h5>
 		<div style="
     display: flex; justify-content: center;">
 			<button class="btn" type="submit">
@@ -96,7 +96,7 @@
 
 	</form>
 
-	<font color="red">${errorMessage}</font>
+
 </div>
 </body>
 

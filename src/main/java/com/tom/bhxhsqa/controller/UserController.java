@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,6 +25,8 @@ public class UserController {
 
 	private final CompanyRepository companyRepository;
     private final UserRepository userRepository;
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     @Autowired
     public UserController(UserRepository injectedBean, CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
@@ -65,7 +69,6 @@ public class UserController {
         user.setPhone(request.getParameter("phone_number"));
         user.setIsCompanyAccount(true);
         user.setMaDonVi(randomUnitCode.toUpperCase());
-
             try {
                 userRepository.save(user);
                 companyRepository.save(company);
@@ -124,7 +127,10 @@ public class UserController {
             model.put("errorMessage", "Tên đăng nhập không được để trống");
             return false;
         }
-
+        if(userRepository.findOneByUsername(registerDTO.getUsername()).getUsername()!= null){
+            model.put("errorMessage", "Tên đăng nhập đã tồn tại!");
+            return false;
+        }
         if(!registerDTO.getPassword().isEmpty()){
             if(registerDTO.getPassword().length() < 6){
                 model.put("errorMessage", "Mật khẩu phải chứa từ 6 kí tự");
@@ -149,6 +155,10 @@ public class UserController {
             model.put("errorMessage", "Vui lòng nhập số CCCD/CMND/Hộ chiếu");
             return false;
         }
+        if(!registerDTO.getCccd().matches("[0-9]+")&& registerDTO.getCccd().length()!=12){
+            model.put("errorMessage", "Vui lòng nhập đúng số CCCD/CMND/Hộ chiếu");
+            return false;
+        }
 
         if(registerDTO.getAddress().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập địa chỉ");
@@ -159,9 +169,17 @@ public class UserController {
             model.put("errorMessage", "Vui lòng nhập số điện thoại");
             return false;
         }
-
+        if(!registerDTO.getPhone().matches("[0-9]+")&&registerDTO.getPhone().length()!=10){
+            model.put("errorMessage", "Số điện thoại chưa đúng!");
+            return false;
+        }
         if(registerDTO.getEmail().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập thư điện tử");
+            return false;
+        }
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(registerDTO.getEmail());
+        if(!matcher.matches()){
+            model.put("errorMessage", "Vui lòng đúng định dạng thư điện tử");
             return false;
         }
         return true;
