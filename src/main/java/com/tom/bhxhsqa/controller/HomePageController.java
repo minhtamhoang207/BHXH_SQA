@@ -1,5 +1,6 @@
 package com.tom.bhxhsqa.controller;
 
+import com.tom.bhxhsqa.common.Expense;
 import com.tom.bhxhsqa.entity.Payment;
 import com.tom.bhxhsqa.entity.User;
 import com.tom.bhxhsqa.repository.CompanyRepository;
@@ -96,12 +97,15 @@ public class HomePageController {
         if(session.getAttribute("user")== null){
             return "redirect:login";
         }
+        User user = userService.findById(Long.valueOf(session.getAttribute("id").toString()));
+        model.addAttribute("user", user);
+        double salary = Expense.tinhPhiBaoHiemCaNhan(user.getSalary());
         String transaction_code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         String currentDate = currentDate();
         model.put("disable_button_pay", false);
         model.put("transaction_code", transaction_code);
         model.put("payment_date", currentDate);
-        model.put("payment_amount", "200000");
+        model.put("payment_amount", String.valueOf(salary));
         return "payment-personal";
     }
 
@@ -188,13 +192,16 @@ public class HomePageController {
         if(userAcc.getIsCompanyAccount()) {
             User user = userService.findById(id);
             model.addAttribute("user", user);
+
+            double salary = Expense.tinhPhiBaoHiemDN(user.getSalary());
+
             String transaction_code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
             String currentDate = currentDate();
             model.put("transaction_code", transaction_code);
             model.put("payment_date", currentDate);
-            model.put("payment_amount", "200000");
+            model.put("payment_amount", String.valueOf(salary));
             return "payment-company";
-        }else
+        } else
             return "redirect:homepage-personal";
     }
 

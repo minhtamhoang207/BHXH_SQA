@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/payment.css">
+	<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/payment.css">
 	<title>Thanh toán bảo hiểm cá nhân</title>
 </head>
 
@@ -15,7 +16,7 @@
 	h5 {text-align: center; color: red}
 </style>
 
-<form method="post">
+<form:form method="post" modelAttribute = "user">
 
 	<div class="container">
 		<div class="card">
@@ -25,7 +26,7 @@
 				<p>Vui lòng điền đầy đủ thông tin thanh toán</p>
 			</div>
 			<div class="input-text">
-				<input type="text" placeholder="" value="Thanh toán bảo hiểm trực tuyến" name="content">
+				<input type="text" placeholder="" value="${user.fullName} Thanh toán bảo hiểm trực tuyến" name="content">
 				<span>Nội dung chuyển khoản</span>
 			</div>
 
@@ -62,6 +63,6 @@
 
 	</div>
 
-</form>
+</form:form>
 
 </html>
