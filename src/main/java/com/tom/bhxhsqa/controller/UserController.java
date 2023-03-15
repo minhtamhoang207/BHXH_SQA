@@ -5,8 +5,6 @@ import com.tom.bhxhsqa.entity.Company;
 import com.tom.bhxhsqa.entity.User;
 import com.tom.bhxhsqa.repository.CompanyRepository;
 import com.tom.bhxhsqa.repository.UserRepository;
-import com.tom.bhxhsqa.service.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.UUID;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,23 +30,22 @@ public class UserController {
 		this.userRepository = injectedBean;
     }
     @RequestMapping(value="/register", method = RequestMethod.GET)
-    public String showRegisterPage(ModelMap model){
+    public String showRegisterPage(){
         return "register";
     }
     
     @RequestMapping(value="/register-personal", method = RequestMethod.GET)
-    public String showRegisterPersonalPage(ModelMap model){
+    public String showRegisterPersonalPage(){
         return "register-personal";
     }
     
     @RequestMapping(value="/register-company", method = RequestMethod.GET)
-    public String showRegisterCompanyPage(ModelMap model){
+    public String showRegisterCompanyPage(){
         return "register-company";
     }
     
     @RequestMapping(value="/register-company", method = RequestMethod.POST)
     public String showHomePage(
-            ModelMap model,
             HttpServletRequest request
     ){
     	String randomUnitCode = UUID.randomUUID().toString();
