@@ -1,12 +1,10 @@
 package com.tom.bhxhsqa.service;
 
 import com.tom.bhxhsqa.dto.UserDTO;
-import com.tom.bhxhsqa.entity.Payment;
 import com.tom.bhxhsqa.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface UserService {
