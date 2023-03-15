@@ -11,33 +11,27 @@
 	<title>Document</title>
 </head>
 
-<style>
-	h4 {text-align: center; color: red}
-</style>
-
 <body>
 
 <div class="container">
 
-	<form:form action="" method="post" modelAttribute="user">
+	<form action="" method="post">
 
 		<div class="signup">
 			<div class="signup__head">
 				<div>
 					<h3 class="signup__title">
-						Khai báo thông tin cá nhân
+						Thêm tài khoản
 					</h3>
 				</div>
 			</div>
-			<br>
-			<h4 color="red">${errorMessage}</h4>
-			<br>
+
 			<div class="signup__body">
 
 				<div class="row">
 					<div class="col-4 col-r">Họ và tên</div>
 					<div class="col-8">
-						<input path="" type="text" class="signup__input" value="${user.fullName}" name="full_name">
+						<input path="" type="text" class="signup__input" name="full_name">
 					</div>
 				</div>
 
@@ -96,11 +90,11 @@
 		<div style="
     display: flex; justify-content: center;">
 			<button class="btn" type="submit">
-				Cập nhật thông tin
+				Thêm
 			</button>
 		</div>
 
-	</form:form>
+	</form>
 
 	<font color="red">${errorMessage}</font>
 </div>

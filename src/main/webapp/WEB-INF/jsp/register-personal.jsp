@@ -7,8 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/styles.css">
-    <title>Document</title>
+    <title>Đăng ký cá nhân</title>
 </head>
+
+<style>
+    h4 {text-align: center; color: red}
+</style>
 
 <body>
 
@@ -24,6 +28,10 @@
                     <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo hiểm xã hội</p>
                 </div>
             </div>
+            <br>
+            <h4 color="red">${errorMessage}</h4>
+            <br>
+            <br>
 
             <div class="signup__body">
 
@@ -94,9 +102,8 @@
         </div>
 
     </form>
-
-    <font color="red">${errorMessage}</font>
 </div>
+
 </body>
 
 </html>

@@ -54,7 +54,8 @@ public class LoginController {
             	
             }
         } catch (Exception e){
-            model.put("errorMessage", "Đã xảy ra lỗi vui lòng thử lại sau");
+            e.printStackTrace();
+            model.put("errorMessage", "Đã xảy ra lỗi");
         }
         
         return "login";

@@ -9,12 +9,18 @@ import com.tom.bhxhsqa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class HomePageController {
@@ -24,18 +30,31 @@ public class HomePageController {
     @Autowired
     PaymentService paymentService;
 
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String init() {
+        return "redirect:login";
+    }
+
     @RequestMapping(value = "/homepage-personal", method = RequestMethod.GET)
     public String showHomePage(ModelMap model) {
         return "homepage-personal";
     }
 
     @RequestMapping(value = "/homepage-company", method = RequestMethod.GET)
-    public String showPersonalInsurance(ModelMap model) {
+    public String showPersonalInsurance(ModelMap model, HttpSession session) {
+        Long userId = Long.parseLong(session.getAttribute("id").toString());
+        User user = userService.findById(userId);
+        List<User> users = userService.getUserByMaDonVi(user.getMaDonVi());
+        model.addAttribute("users", users);
         return "homepage-company";
     }
 
     @RequestMapping(value = "/update-info-personal", method = RequestMethod.GET)
-    public String showUpdateInfoPersonal(ModelMap model) {
+    public String showUpdateInfoPersonal(ModelMap model,HttpSession session) {
+        Long userId = Long.parseLong(session.getAttribute("id").toString());
+        User user = userService.findById(userId);
+        System.out.println(user.getFullName());
+        model.addAttribute("user",user);
         return "update-info-personal";
     }
 
@@ -57,12 +76,25 @@ public class HomePageController {
         user.setSalary(Long.parseLong(request.getParameter("salary")));
 
         userService.updateUserInfo(user);
-        return "update-info-personal";
+        return "redirect:homepage-personal";
     }
 
     @RequestMapping(value = "/payment-personal", method = RequestMethod.GET)
     public String showPaymentPersonal(ModelMap model) {
+        String transaction_code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        String currentDate = currentDate();
+        model.put("disable_button_pay", false);
+        model.put("transaction_code", transaction_code);
+        model.put("payment_date", currentDate);
+        model.put("payment_amount", "200000");
         return "payment-personal";
+    }
+
+    String currentDate(){
+        Date date = new Date();
+        String strDateFormat = "dd/MM/yyyy";
+        DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
+        return dateFormat.format(date);
     }
 
     @RequestMapping(value = "/payment-personal", method = RequestMethod.POST)
@@ -74,15 +106,128 @@ public class HomePageController {
         Payment payment = new Payment();
         User user = new User();
         user.setId(Long.parseLong(session.getAttribute("id").toString()));
-        payment.setUser(user);
-        payment.setChiNhanhNganHang(request.getParameter("branch"));
-        payment.setLoaiGiaoDich(1);
         payment.setNganHang(request.getParameter("bank_name"));
+        payment.setCode(request.getParameter("transaction_code"));
+        payment.setLoaiGiaoDich(1);
         payment.setNoiDung(request.getParameter("content"));
         payment.setNgayThanhToan(request.getParameter("payment_date"));
-        payment.setSoTien(Double.parseDouble(request.getParameter("payment_amount")));
+        if(!request.getParameter("payment_amount").isEmpty()){
+            payment.setSoTien(Double.parseDouble((request.getParameter("payment_amount"))));
+        } else {
+            model.put("error_message", "Đã xảy ra lỗi");
+        }
+        if(!payment.getCode().isEmpty()){
+            try {
+                paymentService.thanhToan(payment);
+                model.put("success_message", "Thanh toán thành công, nhấn để trờ về trang chủ");
+            } catch (Exception e){
+                model.put("error_message", "Đã xảy ra lỗi trong quá trình thanh toán");
+            }
+        }
+    }
 
-        paymentService.thanhToan(payment);
+    @RequestMapping(value = "/add-user", method = RequestMethod.GET)
+    public String addUserToCompany(
+            ModelMap model
+    ) {
+        return "add-user";
+    }
 
+    @RequestMapping(value = {"/company-remove-user/{id}"}, method = RequestMethod.GET)
+    public String removeUser(@PathVariable("id") Long id, ModelMap model, HttpSession session) {
+        Long userId = Long.parseLong(session.getAttribute("id").toString());
+        User currentUser = userService.findById(userId);
+        User user = userService.findById(id);
+        Boolean result = userService.removeUser(currentUser, user);
+        return "redirect:/homepage-company";
+    }
+
+    @RequestMapping(value = {"/payment-company/{id}"}, method = RequestMethod.GET)
+    public String addPayment(@PathVariable("id") Long id, ModelMap model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        String transaction_code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+        String currentDate = currentDate();
+        model.put("transaction_code", transaction_code);
+        model.put("payment_date", currentDate);
+        model.put("payment_amount", "200000");
+        return "payment-company";
+    }
+
+    @RequestMapping(value = {"/payment-company/{id}"}, method = RequestMethod.POST)
+    public String updatePaymentToUser(@PathVariable("id") Long id, ModelMap model, HttpServletRequest request) {
+        Payment payment = new Payment();
+        User user = new User();
+        user.setId(id);
+        payment.setNganHang(request.getParameter("bank_name"));
+        payment.setCode(request.getParameter("transaction_code"));
+        payment.setLoaiGiaoDich(1);
+        payment.setNoiDung(request.getParameter("content"));
+        payment.setNgayThanhToan(request.getParameter("payment_date"));
+        if(!request.getParameter("payment_amount").isEmpty()){
+            payment.setSoTien(Double.parseDouble((request.getParameter("payment_amount"))));
+        } else {
+            model.put("error_message", "Đã xảy ra lỗi");
+        }
+        if(!payment.getCode().isEmpty()){
+            try {
+                paymentService.thanhToan(payment);
+                model.put("success_message", "Thanh toán thành công, nhấn để trờ về trang chủ");
+            } catch (Exception e){
+                model.put("error_message", "Đã xảy ra lỗi trong quá trình thanh toán");
+            }
+        }
+        return "redirect:/homepage-company";
+    }
+
+    @RequestMapping(value = {"/company-update-user/{id}"}, method = RequestMethod.GET)
+    public String updateUser(@PathVariable("id") Long id, ModelMap model) {
+        User user = userService.findById(id);
+        model.addAttribute("user", user);
+        return "update-user-company";
+    }
+
+    @RequestMapping(value = {"/company-update-user/{id}"}, method = RequestMethod.POST)
+    public String updateUserInfo(@PathVariable("id") Long id, ModelMap model, HttpServletRequest request) {
+        User user = new User();
+        user.setId(id);
+        user.setFullName(request.getParameter("full_name"));
+        user.setCccd(request.getParameter("citizen_id"));
+        user.setAddress(request.getParameter("address"));
+        user.setPhone(request.getParameter("phone_number"));
+        user.setEmail(request.getParameter("email"));
+        user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
+        user.setMaSoThue(request.getParameter("tax_code"));
+        user.setSalary(Long.parseLong(request.getParameter("salary")));
+
+        userService.updateUserInfo(user);
+        return "redirect:/homepage-company";
+    }
+    @RequestMapping(value = "/add-user", method = RequestMethod.POST)
+    public String addUserToCompany(
+            ModelMap model,
+            HttpSession session,
+            HttpServletRequest request
+    ) {
+        String randomUsername = UUID.randomUUID().toString();
+        randomUsername = randomUsername.substring(0, Math.min(randomUsername.length(), 8)).toUpperCase();
+        String randomPassword = UUID.randomUUID().toString();
+        randomPassword = randomPassword.substring(0, Math.min(randomPassword.length(), 8)).toUpperCase();
+        User user = new User();
+        Long companyAccountId = Long.parseLong(session.getAttribute("id").toString());
+        user.setFullName(request.getParameter("full_name"));
+        user.setCccd(request.getParameter("citizen_id"));
+        user.setAddress(request.getParameter("address"));
+        user.setPhone(request.getParameter("phone_number"));
+        user.setEmail(request.getParameter("email"));
+        user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
+        user.setMaSoThue(request.getParameter("tax_code"));
+        user.setSalary(Long.parseLong(request.getParameter("salary")));
+        user.setUsername(randomUsername);
+        user.setPassword(randomPassword);
+        user.setIsCompanyAccount(false);
+
+        userService.addUserToCompany(user,companyAccountId);
+        return "redirect:/homepage-company";
     }
 }

@@ -117,4 +117,18 @@ public class Payment {
         this.loaiGiaoDich = loaiGiaoDich;
     }
 
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", user=" + user +
+                ", noiDung='" + noiDung + '\'' +
+                ", ngayThanhToan='" + ngayThanhToan + '\'' +
+                ", soTien=" + soTien +
+                ", nganHang='" + nganHang + '\'' +
+                ", chiNhanhNganHang='" + chiNhanhNganHang + '\'' +
+                ", code='" + code + '\'' +
+                ", loaiGiaoDich=" + loaiGiaoDich +
+                '}';
+    }
 }

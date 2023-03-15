@@ -7,13 +7,9 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="css/styles.css">
-	<title>Document</title>
+	<link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/styles.css">
+	<title>Cập nhật thông tin nhân viên</title>
 </head>
-
-<style>
-	h4 {text-align: center; color: red}
-</style>
 
 <body>
 
@@ -25,13 +21,11 @@
 			<div class="signup__head">
 				<div>
 					<h3 class="signup__title">
-						Khai báo thông tin cá nhân
+						Cập nhật thông tin người dùng
 					</h3>
 				</div>
 			</div>
-			<br>
-			<h4 color="red">${errorMessage}</h4>
-			<br>
+
 			<div class="signup__body">
 
 				<div class="row">

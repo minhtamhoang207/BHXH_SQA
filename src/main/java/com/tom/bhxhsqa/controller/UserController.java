@@ -64,6 +64,7 @@ public class UserController {
         user.setEmail(request.getParameter("email"));
         user.setPhone(request.getParameter("phone_number"));
         user.setIsCompanyAccount(true);
+        user.setMaDonVi(randomUnitCode.toUpperCase());
 
             try {
                 userRepository.save(user);
@@ -106,10 +107,10 @@ public class UserController {
                 return "redirect:login";
             } catch (Exception e){
                 e.printStackTrace();
-                return "register";
+                return "register-personal";
             }
         } else {
-            return "register";
+            return "register-personal";
         }
     }
 
