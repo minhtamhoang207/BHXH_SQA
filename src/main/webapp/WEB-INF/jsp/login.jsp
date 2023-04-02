@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/login.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <title>Document</title>
 </head>
 
@@ -38,9 +43,18 @@
         <input id="password" class='lf--input' placeholder='Mật khẩu' type='password' name="password">
     </div>
     <input class='lf--submit' type='submit' value='Đăng nhập'>
-</form>
+</form >
 <a class='lf--forgot' href='register'>Đăng ký tài khoản</a>
 <br>
+<c:if test="${showToast}">
+    <script>
+        $(document).ready(function() {
+            toastr.options.duration = 200;
+            toastr.options.progressBar = true;
+            toastr.error('', '${errorMessage}');
+        });
+    </script>
+</c:if>
 <br>
 
 <c:if test="${errorMessage != null}">

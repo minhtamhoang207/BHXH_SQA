@@ -163,3 +163,7 @@ body:before {
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
     box-shadow: 0 2px rgba(0, 0, 0, 0.0431372549);
 }
+
+.toast-error {
+    font-size: 12px;
+}

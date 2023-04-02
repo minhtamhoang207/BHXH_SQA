@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,18 +36,21 @@ public class UserController {
     }
     
     @RequestMapping(value="/register-personal", method = RequestMethod.GET)
-    public String showRegisterPersonalPage(){
+    public String showRegisterPersonalPage(ModelMap model){
+        model.addAttribute("showToast", false);
         return "register-personal";
     }
     
     @RequestMapping(value="/register-company", method = RequestMethod.GET)
-    public String showRegisterCompanyPage(){
+    public String showRegisterCompanyPage(ModelMap model){
+        model.addAttribute("showToast", false);
         return "register-company";
     }
     
     @RequestMapping(value="/register-company", method = RequestMethod.POST)
     public String showHomePage(
-            HttpServletRequest request
+            HttpServletRequest request,
+            ModelMap model
     ){
     	String randomUnitCode = UUID.randomUUID().toString();
     	randomUnitCode = randomUnitCode.substring(0, Math.min(randomUnitCode.length(), 8));
@@ -65,6 +69,7 @@ public class UserController {
         user.setPhone(request.getParameter("phone_number"));
         user.setIsCompanyAccount(true);
         user.setMaDonVi(randomUnitCode.toUpperCase());
+        if(!user.getUsername().isEmpty()) {
             try {
                 userRepository.save(user);
                 companyRepository.save(company);
@@ -73,6 +78,11 @@ public class UserController {
                 e.printStackTrace();
                 return "register";
             }
+        } else {
+            model.put("errorMessage", "Tên đăng nhập phải chứa từ 6 kí tự");
+            model.addAttribute("showToast", true);
+            return "/register-company";
+        }
     }
 
 
@@ -117,65 +127,79 @@ public class UserController {
         if(!registerDTO.getUsername().isEmpty()){
             if(registerDTO.getUsername().length() < 6){
                 model.put("errorMessage", "Tên đăng nhập phải chứa từ 6 kí tự");
+                model.addAttribute("showToast", true);
                 return false;
             }
         } else {
             model.put("errorMessage", "Tên đăng nhập không được để trống");
+            model.addAttribute("showToast", true);
             return false;
         }
         if(userRepository.findOneByUsername(registerDTO.getUsername())!= null){
             model.put("errorMessage", "Tên đăng nhập đã tồn tại!");
+            model.addAttribute("showToast", true);
             return false;
         }
         if(!registerDTO.getPassword().isEmpty()){
             if(registerDTO.getPassword().length() < 6){
                 model.put("errorMessage", "Mật khẩu phải chứa từ 6 kí tự");
+                model.addAttribute("showToast", true);
                 return false;
             } else {
                 if (!registerDTO.getPassword().equals(request.getParameter("confirm_password"))) {
                     model.put("errorMessage", "Mật khẩu không khớp");
+                    model.addAttribute("showToast", true);
                     return false;
                 }
             }
         } else {
             model.put("errorMessage", "Vui lòng nhập mật khẩu");
+            model.addAttribute("showToast", true);
             return false;
         }
 
         if(registerDTO.getFullName().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập Họ và tên");
+            model.addAttribute("showToast", true);
             return false;
         }
 
         if(registerDTO.getCccd().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập số CCCD/CMND/Hộ chiếu");
+            model.addAttribute("showToast", true);
             return false;
         }
         if(!registerDTO.getCccd().matches("[0-9]+")&& registerDTO.getCccd().length()!=12){
             model.put("errorMessage", "Vui lòng nhập đúng số CCCD/CMND/Hộ chiếu");
+            model.addAttribute("showToast", true);
             return false;
         }
 
         if(registerDTO.getAddress().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập địa chỉ");
+            model.addAttribute("showToast", true);
             return false;
         }
 
         if(registerDTO.getPhone().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập số điện thoại");
+            model.addAttribute("showToast", true);
             return false;
         }
         if(!registerDTO.getPhone().matches("[0-9]+")&&registerDTO.getPhone().length()!=10){
             model.put("errorMessage", "Số điện thoại chưa đúng!");
+            model.addAttribute("showToast", true);
             return false;
         }
         if(registerDTO.getEmail().isEmpty()){
             model.put("errorMessage", "Vui lòng nhập thư điện tử");
+            model.addAttribute("showToast", true);
             return false;
         }
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(registerDTO.getEmail());
         if(!matcher.matches()){
             model.put("errorMessage", "Vui lòng đúng định dạng thư điện tử");
+            model.addAttribute("showToast", true);
             return false;
         }
         return true;

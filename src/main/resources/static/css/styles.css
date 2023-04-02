@@ -182,11 +182,11 @@
   margin-right: 32px;
 }
 .signup .col-4 {
-  width: 33.3333333333%;
+  width: 25%;
 }
 .signup .col-8 {
   font-family: inherit;
-  width: 66.6666666667%;
+  width: 60%;
 }
 .signup .border {
   border: 1px solid gray;
