@@ -127,7 +127,7 @@ public class UserController {
             model.put("errorMessage", "Tên đăng nhập không được để trống");
             return false;
         }
-        if(userRepository.findOneByUsername(registerDTO.getUsername()).getUsername()!= null){
+        if(userRepository.findOneByUsername(registerDTO.getUsername())!= null){
             model.put("errorMessage", "Tên đăng nhập đã tồn tại!");
             return false;
         }

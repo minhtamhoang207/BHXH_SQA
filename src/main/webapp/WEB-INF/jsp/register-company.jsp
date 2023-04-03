@@ -21,7 +21,8 @@
                     <h3 class="signup__title">
                         ĐĂNG KÝ
                     </h3>
-                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo hiểm xã hội</p>
+                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao
+                        dịch điện tử trong lĩnh vực bảo hiểm xã hội</p>
                 </div>
             </div>
 
@@ -75,14 +76,14 @@
                         <input type="text" class="signup__input" placeholder="" name="email">
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-4 col-r">Người đại diện</div>
                     <div class="col-8">
                         <input type="text" class="signup__input" placeholder="" name="representative">
                     </div>
                 </div>
-                
+
                 <div class="row">
                     <div class="col-4 col-r">Mã số thuế</div>
                     <div class="col-8">
@@ -102,8 +103,22 @@
 
     </form>
 
-    <font color="red">${errorMessage}</font>
+    <c:if test="${errorMessage != null}">
+        <div class="mess" id="message">
+            <div class="mess__tt">
+                <h2 class="mess__title">${errorMessage}</h2>
+                <div class="mess__btn" id="btnOk">OK</div>
+            </div>
+        </div>
+    </c:if>
 </div>
 </body>
-
+<script>
+    const mess = document.getElementById('message')
+    console.log(mess)
+    const btn = document.getElementById('btnOk')
+    btn.onclick = () => {
+        mess.style = 'display: none'
+    }
+</script>
 </html>

@@ -158,8 +158,10 @@ public class HomePageController {
         }
         User user = (User) session.getAttribute("user");
         System.out.println("user: "+user.getIsCompanyAccount());
-        if(user.getIsCompanyAccount())
+        if(user.getIsCompanyAccount()) {
+            System.out.println("Error2 "+model.getAttribute("errorMessage"));
             return "add-user";
+        }
         else
             return "redirect:homepage-personal";
     }
@@ -353,7 +355,7 @@ public class HomePageController {
             user.setUsername(randomUsername);
             user.setPassword(randomPassword);
             user.setIsCompanyAccount(false);
-
+            System.out.println("Error "+model.getAttribute("errorMessage"));
             userService.addUserToCompany(user, companyAccountId);
             return "redirect:/homepage-company";
         }else {
