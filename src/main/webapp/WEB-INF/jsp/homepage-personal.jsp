@@ -13,23 +13,37 @@
 <body>
 
 <div class="container-reg2" aria-orientation="horizontal">
-        <div style="display: flex; justify-content: center;">
-            <a class="button-29" href="/update-info-personal">
-               Cập nhật thông tin
-            </a>
-        </div>
-        <br>
-        <hr class="solid">
-        <br>
-        <div style="display: flex; justify-content: center;">
-            <a class="button-29" href="/payment-personal">
-               Thanh toán phí bảo hiểm
-            </a>
-        </div>
+    <div style="display: flex; justify-content: center;">
+        <a class="button-29" href="/update-info-personal">
+            Cập nhật thông tin
+        </a>
+    </div>
+    <br>
+    <hr class="solid">
+    <br>
+    <div style="display: flex; justify-content: center;">
+        <a class="button-29" href="/payment-personal">
+            Thanh toán phí bảo hiểm
+        </a>
+    </div>
 
 
-    <font color="red">${errorMessage}</font>
+    <c:if test="${errorMessage != null}">
+        <div class="mess" id="message">
+            <div class="mess__tt">
+                <h2 class="mess__title">${errorMessage}</h2>
+                <div class="mess__btn" id="btnOk">OK</div>
+            </div>
+        </div>
+    </c:if>
 </div>
 </body>
-
+<script>
+    const mess = document.getElementById('message')
+    console.log(mess)
+    const btn = document.getElementById('btnOk')
+    btn.onclick = () => {
+        mess.style = 'display: none'
+    }
+</script>
 </html>

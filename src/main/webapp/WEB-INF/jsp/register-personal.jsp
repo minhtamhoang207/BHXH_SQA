@@ -11,7 +11,10 @@
 </head>
 
 <style>
-    h4 {text-align: center; color: red}
+    h4 {
+        text-align: center;
+        color: red
+    }
 </style>
 
 <body>
@@ -25,11 +28,11 @@
                     <h3 class="signup__title">
                         ĐĂNG KÝ
                     </h3>
-                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo hiểm xã hội</p>
+                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao
+                        dịch điện tử trong lĩnh vực bảo hiểm xã hội</p>
                 </div>
             </div>
             <br>
-            <h4 color="red">${errorMessage}</h4>
             <br>
             <br>
 
@@ -64,7 +67,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu </div>
+                    <div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu</div>
                     <div class="col-8">
                         <input type="text" class="signup__input" placeholder="" name="citizen_id">
                     </div>
@@ -102,8 +105,23 @@
         </div>
 
     </form>
+    <c:if test="${errorMessage != null}">
+        <div class="mess" id="message">
+            <div class="mess__tt">
+                <h2 class="mess__title">${errorMessage}</h2>
+                <div class="mess__btn" id="btnOk">OK</div>
+            </div>
+        </div>
+    </c:if>
 </div>
 
 </body>
-
+<script>
+    const mess = document.getElementById('message')
+    console.log(mess)
+    const btn = document.getElementById('btnOk')
+    btn.onclick = () => {
+        mess.style = 'display: none'
+    }
+</script>
 </html>

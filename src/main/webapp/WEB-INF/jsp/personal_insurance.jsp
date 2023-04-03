@@ -21,7 +21,8 @@
                     <h3 class="signup__title">
                         TỜ KHAI
                     </h3>
-                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo
+                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao
+                        dịch điện tử trong lĩnh vực bảo
                         hiểm
                         xã
                         hội</p>
@@ -45,9 +46,9 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu </div>
+                    <div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu</div>
                     <div class="col-8">
-                        <input type="text" class="signup__input" placeholder="" >
+                        <input type="text" class="signup__input" placeholder="">
                     </div>
                 </div>
 
@@ -55,8 +56,10 @@
                     <div class="col-4 col-r">Địa chỉ liên hệ</div>
                     <div class="col-8">
                         <div class="row">
-                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Chọn tỉnh"></div>
-                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Chọn huyện"></div>
+                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Chọn tỉnh">
+                            </div>
+                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Chọn huyện">
+                            </div>
                             <div class="col-4"><input type="text" class="signup__input" placeholder="Chọn xã"></div>
                         </div>
                     </div>
@@ -65,7 +68,8 @@
                 <div class="row">
                     <div class="col-4 col-r"></div>
                     <div class="col-8">
-                        <input type="text" class="signup__input" placeholder="Số nhà, ngõ (ngách, hẻm), đường phố, tổ (thôn, xóm, ấp)">
+                        <input type="text" class="signup__input"
+                               placeholder="Số nhà, ngõ (ngách, hẻm), đường phố, tổ (thôn, xóm, ấp)">
                     </div>
                 </div>
                 <div class="row">
@@ -81,18 +85,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-4 col-r"> Thời hạn sử dụng chứng thư số: </div>
+                    <div class="col-4 col-r"> Thời hạn sử dụng chứng thư số:</div>
                     <div class="col-8">
                         <div class="row">
-                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Từ ngày"></div>
-                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Đến ngày"></div>
+                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Từ ngày">
+                            </div>
+                            <div class="col-4 mr-25"><input type="text" class="signup__input" placeholder="Đến ngày">
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-4 col-r"></div>
                     <div class="col-8">
-                        Cá nhân tôi không có chứng thư số (không điền nội dung tại mục (*)), đề nghị cơ quan Bảo hiểm xã hội cấp mã xác thực giao dịch điện tử theo địa chỉ thư điện tử hoặc số điện thoại di động dưới đây:
+                        Cá nhân tôi không có chứng thư số (không điền nội dung tại mục (*)), đề nghị cơ quan Bảo hiểm xã
+                        hội cấp mã xác thực giao dịch điện tử theo địa chỉ thư điện tử hoặc số điện thoại di động dưới
+                        đây:
                     </div>
                 </div>
                 <div class="row">
@@ -110,8 +118,12 @@
                 <div class="row">
                     <div class="col-4 col-r"></div>
                     <div class="col-8">
-                        Theo Nghị định số 166/2016/NĐ-CP ngày 24 tháng 12 năm 2016 của Chính phủ, cơ quan/tổ chức/cá nhân tôi có đủ các điều kiện sử dụng phương thức giao dịch điện tử. Cơ quan/tổ chức/cá nhân tôi đăng ký, điều chỉnh thông tin và ngừng sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo hiểm xã hội với cơ quan Bảo hiểm xã hội như sau:
-                        Đăng ký sử dụng phương thức giao dịch điện tử trong lĩnh vực Bảo hiểm xã hội từ ngày 07 tháng 03 năm 2023
+                        Theo Nghị định số 166/2016/NĐ-CP ngày 24 tháng 12 năm 2016 của Chính phủ, cơ quan/tổ chức/cá
+                        nhân tôi có đủ các điều kiện sử dụng phương thức giao dịch điện tử. Cơ quan/tổ chức/cá nhân tôi
+                        đăng ký, điều chỉnh thông tin và ngừng sử dụng phương thức giao dịch điện tử trong lĩnh vực bảo
+                        hiểm xã hội với cơ quan Bảo hiểm xã hội như sau:
+                        Đăng ký sử dụng phương thức giao dịch điện tử trong lĩnh vực Bảo hiểm xã hội từ ngày 07 tháng 03
+                        năm 2023
                     </div>
                 </div>
                 <div class="row">
@@ -120,15 +132,17 @@
                         <div>
                             <div>
                                 <label>
-                                    <input type="radio" />Cổng thông tin điện tử của Bảo hiểm xã hội Việt Nam </label>
+                                    <input type="radio"/>Cổng thông tin điện tử của Bảo hiểm xã hội Việt Nam </label>
                             </div>
                             <div>
                                 <label>
-                                    <input type="radio" />Tổ chức I-VAN</label>
+                                    <input type="radio"/>Tổ chức I-VAN</label>
                             </div>
                         </div>
                         <div>
-                            <p>Cơ quan/tổ chức/cá nhân tôi cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính chính xác, trung thực của nội dung nêu trên và thực hiện giao dịch điện tử trong lĩnh vực bảo hiểm xã hội theo đúng quy định của pháp luật.</p>
+                            <p>Cơ quan/tổ chức/cá nhân tôi cam kết hoàn toàn chịu trách nhiệm trước pháp luật về tính
+                                chính xác, trung thực của nội dung nêu trên và thực hiện giao dịch điện tử trong lĩnh
+                                vực bảo hiểm xã hội theo đúng quy định của pháp luật.</p>
                         </div>
                     </div>
                 </div>
