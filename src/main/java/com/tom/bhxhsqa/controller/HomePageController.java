@@ -38,9 +38,11 @@ public class HomePageController {
 
     @RequestMapping(value = "/homepage-personal", method = RequestMethod.GET)
     public String showHomePage(ModelMap model, HttpSession session) {
-        if(session.getAttribute("user")== null){
+        User user = (User) session.getAttribute("user");
+        if(user== null){
             return "redirect:login";
         }
+        model.put("userName", user.getFullName() );
         return "homepage-personal";
     }
 

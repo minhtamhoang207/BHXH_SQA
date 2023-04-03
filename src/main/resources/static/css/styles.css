@@ -155,7 +155,7 @@
 }
 
 .container {
-  margin-top: 100px;
+  margin-top: 30px;
   width: 1200px;
 }
 
@@ -182,11 +182,11 @@
   margin-right: 32px;
 }
 .signup .col-4 {
-  width: 33.3333333333%;
+  width: 20%;
 }
 .signup .col-8 {
   font-family: inherit;
-  width: 66.6666666667%;
+  width: 70%;
 }
 .signup .border {
   border: 1px solid gray;
@@ -246,7 +246,7 @@
 }
 .signup__title {
   font-family: Arial;
-  margin-left: 140px;
+  margin-left: 0px;
   font-size: 2.5rem;
   font-style: normal;
   color: black;
