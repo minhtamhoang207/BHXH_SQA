@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestTinhBaoHiem {
     @Test
-    public void testTH1() {
+    public void testcase1() {
         Long i = -10000L;
         Double expected = 0.0;
         Double actual = Expense.tinhPhiBaoHiemCaNhan(i);
@@ -15,7 +15,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
-    public void testTH2() {
+    public void testcase2() {
         long i = 1500000;
         Double expected = 330000.0;
         Double actual = Expense.tinhPhiBaoHiemCaNhan(i);
@@ -23,7 +23,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
-    public void testTH3() {
+    public void testcase3() {
         long i = 1500001;
         Double expected = 330000.22000000003;
         Double actual = Expense.tinhPhiBaoHiemCaNhan(i);
@@ -31,9 +31,17 @@ public class TestTinhBaoHiem {
     }
 
     @Test
-    public void testTH4() {
-        long i = 30000000;
-        Double expected = 6600000.0;
+    public void testcase4() {
+        long i = 33300000;
+        Double expected = 6556000.0;
+        Double actual = Expense.tinhPhiBaoHiemCaNhan(i);
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testcase5() {
+        long i = 29800000;
+        Double expected = 6556000.0;
         Double actual = Expense.tinhPhiBaoHiemCaNhan(i);
         assertEquals(expected, actual);
     }
@@ -41,7 +49,7 @@ public class TestTinhBaoHiem {
 
     // Test tinh phi BH doanh nghiep
     @Test
-    public void testTH5() {
+    public void testcase6() {
         long i = -10000;
         Double expected = 0.0;
         Double actual = Expense.tinhPhiBaoHiemDN(i);
@@ -49,7 +57,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
-    public void testTH6() {
+    public void testcase7() {
         long i = 0;
         Double expected = 0.0;
         Double actual = Expense.tinhPhiBaoHiemDN(i);
@@ -57,7 +65,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
-    public void testTH7() {
+    public void testcase8() {
         long i = 6500000;
         Double expected = 2080000.0;
         Double actual = Expense.tinhPhiBaoHiemDN(i);
@@ -65,7 +73,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
-    public void testTH8() {
+    public void testcase9() {
         long i = 11000000;
         Double expected = 3520000.0;
         Double actual = Expense.tinhPhiBaoHiemDN(i);
