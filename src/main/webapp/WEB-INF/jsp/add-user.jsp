@@ -104,22 +104,22 @@
         </div>
 
     </form>
-    <c:if test="${errorMessage != null}">
-        <div class="mess" id="message">
-            <div class="mess__tt">
-                <h2 class="mess__title">${errorMessage}</h2>
-                <div class="mess__btn" id="btnOk">OK</div>
-            </div>
-        </div>
-    </c:if>
+<%--    <c:if test="${errorMessage != null}">--%>
+<%--        <div class="mess" id="message">--%>
+<%--            <div class="mess__tt">--%>
+<%--                <h2 class="mess__title">${errorMessage}</h2>--%>
+<%--                <div class="mess__btn" id="btnOk">OK</div>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--    </c:if>--%>
 </div>
 </body>
-<script>
-    const mess = document.getElementById('message')
-    console.log(mess)
-    const btn = document.getElementById('btnOk')
-    btn.onclick = () => {
-        mess.style = 'display: none'
-    }
-</script>
+<%--<script>--%>
+<%--    const mess = document.getElementById('message')--%>
+<%--    console.log(mess)--%>
+<%--    const btn = document.getElementById('btnOk')--%>
+<%--    btn.onclick = () => {--%>
+<%--        mess.style = 'display: none'--%>
+<%--    }--%>
+<%--</script>--%>
 </html>
