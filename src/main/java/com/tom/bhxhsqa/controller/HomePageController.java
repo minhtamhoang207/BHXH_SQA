@@ -100,15 +100,21 @@ public class HomePageController {
             return "redirect:login";
         }
         User user = userService.findById(Long.valueOf(session.getAttribute("id").toString()));
-        model.addAttribute("user", user);
-        double salary = Expense.tinhPhiBaoHiemCaNhan(user.getSalary());
-        String transaction_code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
-        String currentDate = currentDate();
-        model.put("disable_button_pay", false);
-        model.put("transaction_code", transaction_code);
-        model.put("payment_date", currentDate);
-        model.put("payment_amount", String.valueOf(salary));
-        return "payment-personal";
+        if (user.getSalary() == null ){
+            model.put("errorMessage", "Vui lòng cập nhật đầy đủ thông tin trước khi thanh toán");
+            model.addAttribute("showToast", true);
+            return "/homepage-personal";
+        } else {
+            model.addAttribute("user", user);
+            double salary = Expense.tinhPhiBaoHiemCaNhan(user.getSalary());
+            String transaction_code = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
+            String currentDate = currentDate();
+            model.put("disable_button_pay", false);
+            model.put("transaction_code", transaction_code);
+            model.put("payment_date", currentDate);
+            model.put("payment_amount", String.valueOf(salary));
+            return "payment-personal";
+        }
     }
 
     String currentDate(){

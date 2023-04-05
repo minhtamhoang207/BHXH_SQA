@@ -53,29 +53,7 @@ public class UserDTO extends AbstractDTO<UserDTO> {
             this.maSoThue = user.getMaSoThue();
             this.tenDonVi = user.getTenDonVi();
             this.maDonVi = user.getMaDonVi();
-            if (this.salary != null) {
-                if (this.typeUser == 1) {
-                    if (this.salary > 0 && this.salary < 4420000) {
-                        this.status = "Bạn không thuộc đối tượng đóng BHXH";
-                    } else if (this.salary > 29800000) {
-                        this.phiBaoHiem = Expense.tinhPhiBaoHiemCaNhan(this.salary - 29800000);
-                        this.phiBaoHiemDN = Expense.tinhPhiBaoHiemDN(this.salary - 29800000);
-                    } else {
-                        this.phiBaoHiem = Expense.tinhPhiBaoHiemCaNhan(this.salary);
-                        this.phiBaoHiemDN = Expense.tinhPhiBaoHiemDN(this.salary);
-                    }
-
-                } else {
-                    if (this.salary > 0 && this.salary < 700000) {
-                        this.status = "Bạn không thuộc đối tượng đóng BHXH";
-                    } else if (this.salary > 29800000) {
-                        this.phiBaoHiem = Expense.tinhPhiBaoHiemTudo(this.salary - 29800000);
-                    } else {
-                        this.phiBaoHiem = Expense.tinhPhiBaoHiemTudo(this.salary);
-                    }
-
-                }
-            }
+            this.salary = user.getSalary();
         }
     }
 

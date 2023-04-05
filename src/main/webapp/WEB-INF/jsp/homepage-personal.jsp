@@ -1,4 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,6 +70,7 @@
 <%--        </a>--%>
 <%--    </div>--%>
 <%--=======--%>
+
 <nav class="navbar navbar-custom nav-background">
     <div class=".navbar-custom">
         <div class="navbar-header">
@@ -79,9 +82,6 @@
         </ul>
     </div>
 </nav>
-
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-<link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
 
     <c:if test="${errorMessage != null}">
         <div class="mess" id="message">
