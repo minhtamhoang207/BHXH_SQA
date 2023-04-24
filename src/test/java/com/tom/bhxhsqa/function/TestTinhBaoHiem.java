@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestTinhBaoHiem {
+
+    //Test tính bảo hiểm user có lương = -10000
     @Test
     public void testcase1() {
         Long i = -10000L;
@@ -15,6 +17,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 1500000
     public void testcase2() {
         long i = 1500000;
         Double expected = 330000.0;
@@ -23,6 +26,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 1500001
     public void testcase3() {
         long i = 1500001;
         Double expected = 330000.22000000003;
@@ -31,6 +35,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 33300000
     public void testcase4() {
         long i = 33300000;
         Double expected = 6556000.0;
@@ -39,6 +44,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 29800000
     public void testcase5() {
         long i = 29800000;
         Double expected = 6556000.0;
@@ -49,6 +55,7 @@ public class TestTinhBaoHiem {
 
     // Test tinh phi BH doanh nghiep
     @Test
+    //Test tính bảo hiểm user có lương = -10000
     public void testcase6() {
         long i = -10000;
         Double expected = 0.0;
@@ -57,6 +64,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 0
     public void testcase7() {
         long i = 0;
         Double expected = 0.0;
@@ -65,6 +73,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 6500000
     public void testcase8() {
         long i = 6500000;
         Double expected = 2080000.0;
@@ -73,6 +82,7 @@ public class TestTinhBaoHiem {
     }
 
     @Test
+    //Test tính bảo hiểm user có lương = 11000000
     public void testcase9() {
         long i = 11000000;
         Double expected = 3520000.0;

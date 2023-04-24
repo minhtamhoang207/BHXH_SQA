@@ -34,7 +34,7 @@ public class LoginController {
         String userType = request.getParameter("user_type");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        if (username.length() > 6 && password.length() > 6) {
+        if (username.length() > 6 && password.length() >= 6) {
             try {
                 long userID = userService.login(username, password);
                 if (userID == -1) {

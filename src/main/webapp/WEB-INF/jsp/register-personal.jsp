@@ -14,7 +14,10 @@
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-    <title>Đăng ký cá nhân</title>
+    <title>Đăng ký | Cá nhân</title>
+    <link rel = "icon" href =
+            "https://baohiemxahoi.gov.vn/images/favicon.ico?rev=23"
+          type = "image/x-icon">
 </head>
 
 <style>

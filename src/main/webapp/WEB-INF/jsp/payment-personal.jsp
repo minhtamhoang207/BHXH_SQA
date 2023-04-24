@@ -10,7 +10,10 @@
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/payment.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-    <title>Thanh toán bảo hiểm cá nhân</title>
+    <title>Cá nhân | Thanh toán</title>
+    <link rel = "icon" href =
+            "https://baohiemxahoi.gov.vn/images/favicon.ico?rev=23"
+          type = "image/x-icon">
 </head>
 
 <style>

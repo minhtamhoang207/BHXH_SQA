@@ -21,7 +21,7 @@
             <div class="signup__head">
                 <div>
                     <h3 class="signup__title">
-                        Cập nhật thông tin người dùng
+                        Cập nhật thông tin nhân viên
                     </h3>
                 </div>
             </div>

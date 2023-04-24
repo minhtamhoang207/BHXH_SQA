@@ -88,10 +88,15 @@ public class HomePageController {
         user.setEmail(request.getParameter("email"));
         user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
         user.setMaSoThue(request.getParameter("tax_code"));
-        user.setSalary(Long.parseLong(request.getParameter("salary")));
+        if(Long.parseLong(request.getParameter("salary"))<= 0){
+            model.put("errorMessage","Lương phải là 1 số dương");
+            return "redirect:update-info-personal";
+        }else {
+            user.setSalary(Long.parseLong(request.getParameter("salary")));
 
-        userService.updateUserInfo(user);
-        return "redirect:homepage-personal";
+            userService.updateUserInfo(user);
+            return "redirect:homepage-personal";
+        }
     }
 
     @RequestMapping(value = "/payment-personal", method = RequestMethod.GET)
@@ -269,7 +274,8 @@ public class HomePageController {
     }
 
     @RequestMapping(value = {"/company-update-user/{id}"}, method = RequestMethod.POST)
-    public String updateUserInfo(@PathVariable("id") Long id, ModelMap model, HttpServletRequest request, HttpSession session) {
+    public String updateUserInfo(@PathVariable("id") Long id, ModelMap model,
+                                 HttpServletRequest request, HttpSession session) {
         if(session.getAttribute("user")== null){
             return "redirect:login";
         }
@@ -285,9 +291,14 @@ public class HomePageController {
             user.setEmail(request.getParameter("email"));
             user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
             user.setMaSoThue(request.getParameter("tax_code"));
-            user.setSalary(Long.parseLong(request.getParameter("salary")));
-            userService.updateUserInfo(user);
-            return "redirect:/homepage-company";
+            if(Long.parseLong(request.getParameter("salary"))<= 0){
+                model.put("errorMessage","Lương phải là 1 số dương");
+                return "redirect:/company-update-user/{id}";
+            }else {
+                user.setSalary(Long.parseLong(request.getParameter("salary")));
+                userService.updateUserInfo(user);
+                return "redirect:/homepage-company";
+            }
         }
         else {
             return "redirect:homepage-personal";

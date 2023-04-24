@@ -8,7 +8,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/css/company-payment.css">
-    <title>Document</title>
+    <title>Doanh Nghiệp | Thanh toán</title>
+    <link rel = "icon" href =
+            "https://baohiemxahoi.gov.vn/images/favicon.ico?rev=23"
+          type = "image/x-icon">
 </head>
 
 <style>
