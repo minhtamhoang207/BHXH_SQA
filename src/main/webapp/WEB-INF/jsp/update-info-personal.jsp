@@ -12,6 +12,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
 	<title>Cá nhân | Khai báo</title>
     <link rel = "icon" href =
             "https://baohiemxahoi.gov.vn/images/favicon.ico?rev=23"
@@ -72,13 +74,9 @@
     <form:form action="" method="post" modelAttribute="user">
 
         <div class="signup">
-            <div class="signup__head">
-                <div>
-                    <h3 class="signup__title">
-                        Khai báo thông tin cá nhân
-                    </h3>
-                </div>
-            </div>
+            <h3 class="signup__title">
+                Khai báo thông tin cá nhân
+            </h3>
             <br>
             <br>
             <div class="signup__body">
@@ -93,7 +91,7 @@
                 <div class="row">
                     <div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu</div>
                     <div class="col-8">
-                        <input path="" type="text" class="signup__input" value="${user.email}" placeholder=""
+                        <input path="" type="text" class="signup__input" value="${user.cccd}" placeholder=""
                                name="citizen_id">
                     </div>
                 </div>
@@ -157,23 +155,15 @@
         </div>
 
     </form:form>
-
-<%--    <c:if test="${errorMessage != null}">--%>
-<%--        <div class="mess" id="message">--%>
-<%--            <div class="mess__tt">--%>
-<%--                <h2 class="mess__title">${errorMessage}</h2>--%>
-<%--                <div class="mess__btn" id="btnOk">OK</div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </c:if>--%>
+    <c:if test="${showToast}">
+        <script>
+            $(document).ready(function() {
+                toastr.options.duration = 200;
+                toastr.options.progressBar = true;
+                toastr.error('', '${errorMessage}');
+            });
+        </script>
+    </c:if>
 </div>
 </body>
-<%--<script>--%>
-<%--    const mess = document.getElementById('message')--%>
-<%--    console.log(mess)--%>
-<%--    const btn = document.getElementById('btnOk')--%>
-<%--    btn.onclick = () => {--%>
-<%--        mess.style = 'display: none'--%>
-<%--    }--%>
-<%--</script>--%>
 </html>

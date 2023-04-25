@@ -18,6 +18,12 @@
 </head>
 
 <style>
+    body {
+        background-image: url('https://dichvucong.baohiemxahoi.gov.vn/assets/images/bg_01.svg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
     .nav-background {
         background-image: url("https://png.pngtree.com/background/20220805/original/pngtree-vietnam-dong-son-bronze-drum-pattern-blue-background-picture-image_1915085.jpg");
         background-size: cover;
@@ -96,21 +102,5 @@
         <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
     </div>
 </div>
-<%--<c:if test="${errorMessage != null}">--%>
-<%--    <div class="mess" id="message">--%>
-<%--        <div class="mess__tt">--%>
-<%--            <h2 class="mess__title">${errorMessage}</h2>--%>
-<%--            <div class="mess__btn" id="btnOk">OK</div>--%>
-<%--        </div>--%>
-<%--    </div>--%>
-<%--</c:if>--%>
 </body>
-<%--<script>--%>
-<%--    const mess = document.getElementById('message')--%>
-<%--    console.log(mess)--%>
-<%--    const btn = document.getElementById('btnOk')--%>
-<%--    btn.onclick = () => {--%>
-<%--        mess.style = 'display: none'--%>
-<%--    }--%>
-<%--</script>--%>
 </html>

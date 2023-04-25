@@ -104,10 +104,9 @@ hr.solid {
 
 .button {
     display: flex;
-    height: 100px;
+    height: 140px;
     padding: 0;
-    background: url("https://i.ytimg.com/vi/gd5XcNAGIuA/mqdefault.jpg");
-    border: none;
+    background: #113160;
     outline: none;
     border-radius: 5px;
     overflow: hidden;
@@ -115,14 +114,15 @@ hr.solid {
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    border-top: 5px solid #5e84ff;
 }
 
 .button:hover {
-    background: royalblue;
+    background: #5e84ff;
 }
 
 .button:active {
-    background: dodgerblue;
+    background: #5e84ff;
 }
 
 .button__text,

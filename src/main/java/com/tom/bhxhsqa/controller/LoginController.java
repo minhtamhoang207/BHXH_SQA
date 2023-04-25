@@ -38,7 +38,7 @@ public class LoginController {
             try {
                 long userID = userService.login(username, password);
                 if (userID == -1) {
-                    model.put("errorMessage", "Tên đăng nhập hoặc mật khẩu không chính xác");
+                    model.put("errorMessage", "Tài khoản hoặc mật khẩu không chính xác");
                     model.addAttribute("showToast", true);
                     return "login";
                 } else {

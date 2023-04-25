@@ -13,6 +13,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <title>Trang chủ | Cá nhân</title>
     <link rel = "icon" href =
             "https://baohiemxahoi.gov.vn/images/favicon.ico?rev=23"
@@ -57,23 +59,6 @@
 
 <body>
 
-<%--<<<<<<< HEAD--%>
-<%--<div class="container-reg2" aria-orientation="horizontal">--%>
-<%--    <div style="display: flex; justify-content: center;">--%>
-<%--        <a class="button-29" href="/update-info-personal">--%>
-<%--            Cập nhật thông tin--%>
-<%--        </a>--%>
-<%--    </div>--%>
-<%--    <br>--%>
-<%--    <hr class="solid">--%>
-<%--    <br>--%>
-<%--    <div style="display: flex; justify-content: center;">--%>
-<%--        <a class="button-29" href="/payment-personal">--%>
-<%--            Thanh toán phí bảo hiểm--%>
-<%--        </a>--%>
-<%--    </div>--%>
-<%--=======--%>
-
 <nav class="navbar navbar-custom nav-background">
     <div class=".navbar-custom">
         <div class="navbar-header">
@@ -86,14 +71,6 @@
     </div>
 </nav>
 
-    <c:if test="${errorMessage != null}">
-        <div class="mess" id="message">
-            <div class="mess__tt">
-                <h2 class="mess__title">${errorMessage}</h2>
-                <div class="mess__btn" id="btnOk">OK</div>
-            </div>
-        </div>
-    </c:if>
 <div class="container">
     <div>
         <a type="button" class="button" href="/update-info-personal">
@@ -118,12 +95,13 @@
     </div>
 </div>
 </body>
-<script>
-    const mess = document.getElementById('message')
-    console.log(mess)
-    const btn = document.getElementById('btnOk')
-    btn.onclick = () => {
-        mess.style = 'display: none'
-    }
-</script>
+<c:if test="${showToast}">
+    <script>
+        $(document).ready(function() {
+            toastr.options.duration = 200;
+            toastr.options.progressBar = true;
+            toastr.error('', '${errorMessage}');
+        });
+    </script>
+</c:if>
 </html>

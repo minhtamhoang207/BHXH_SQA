@@ -3,8 +3,6 @@ package com.tom.bhxhsqa.controller;
 import com.tom.bhxhsqa.common.Expense;
 import com.tom.bhxhsqa.entity.Payment;
 import com.tom.bhxhsqa.entity.User;
-import com.tom.bhxhsqa.repository.CompanyRepository;
-import com.tom.bhxhsqa.repository.UserRepository;
 import com.tom.bhxhsqa.service.PaymentService;
 import com.tom.bhxhsqa.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +11,15 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 @Controller
@@ -60,6 +59,7 @@ public class HomePageController {
 
     @RequestMapping(value = "/update-info-personal", method = RequestMethod.GET)
     public String showUpdateInfoPersonal(ModelMap model,HttpSession session) {
+        model.addAttribute("showToast", false);
         if(session.getAttribute("user")== null){
             return "redirect:login";
         }
@@ -88,14 +88,29 @@ public class HomePageController {
         user.setEmail(request.getParameter("email"));
         user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
         user.setMaSoThue(request.getParameter("tax_code"));
-        if(Long.parseLong(request.getParameter("salary"))<= 0){
-            model.put("errorMessage","Lương phải là 1 số dương");
-            return "redirect:update-info-personal";
-        }else {
-            user.setSalary(Long.parseLong(request.getParameter("salary")));
 
-            userService.updateUserInfo(user);
-            return "redirect:homepage-personal";
+        if(user.getFullName().isEmpty() ||
+            user.getCccd().isEmpty() ||
+            user.getAddress().isEmpty() ||
+            user.getPhone().isEmpty() ||
+            user.getEmail().isEmpty() ||
+            user.getCoQuanBaoHiemThanhPho().isEmpty() ||
+            user.getMaSoThue().isEmpty() ||
+            request.getParameter("salary").isEmpty()) {
+
+            model.put("errorMessage","Vui lòng nhập đầy đủ thông tin");
+            model.addAttribute("showToast", true);
+            return "update-info-personal";
+        } else {
+            if(Long.parseLong(request.getParameter("salary"))<= 0){
+                model.put("errorMessage","Lương phải lớn hơn 0");
+                model.addAttribute("showToast", true);
+                return "update-info-personal";
+            } else {
+                user.setSalary(Long.parseLong(request.getParameter("salary")));
+                userService.updateUserInfo(user);
+                return "redirect:homepage-personal";
+            }
         }
     }
 
@@ -105,7 +120,15 @@ public class HomePageController {
             return "redirect:login";
         }
         User user = userService.findById(Long.valueOf(session.getAttribute("id").toString()));
-        if (user.getSalary() == null ){
+        if (user.getSalary() == null ||
+                user.getFullName() == null ||
+                user.getCoQuanBaoHiemThanhPho() == null ||
+                user.getAddress() == null ||
+                user.getCccd() == null ||
+                user.getEmail() == null ||
+                user.getPhone() == null ||
+                user.getMaSoThue() == null
+        ){
             model.put("errorMessage", "Vui lòng cập nhật đầy đủ thông tin trước khi thanh toán");
             model.addAttribute("showToast", true);
             return "/homepage-personal";
@@ -117,7 +140,12 @@ public class HomePageController {
             model.put("disable_button_pay", false);
             model.put("transaction_code", transaction_code);
             model.put("payment_date", currentDate);
-            model.put("payment_amount", String.valueOf(salary));
+
+            Locale locale = new Locale("vn", "VN");
+            NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(locale);
+            System.out.println(currencyFormatter.format(salary));
+
+            model.put("payment_amount", currencyFormatter.format(salary));
             return "payment-personal";
         }
     }
@@ -291,14 +319,77 @@ public class HomePageController {
             user.setEmail(request.getParameter("email"));
             user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
             user.setMaSoThue(request.getParameter("tax_code"));
-            if(Long.parseLong(request.getParameter("salary"))<= 0){
-                model.put("errorMessage","Lương phải là 1 số dương");
-                return "redirect:/company-update-user/{id}";
-            }else {
-                user.setSalary(Long.parseLong(request.getParameter("salary")));
-                userService.updateUserInfo(user);
-                return "redirect:/homepage-company";
+            if(!request.getParameter("salary").isEmpty()) {
+                if(Long.parseLong(request.getParameter("salary"))<= 0){
+                    model.put("errorMessage", "Lương phải là 1 số dương");
+                    model.addAttribute("showToast", true);
+                    return "redirect:/company-update-user/{id}";
+                } else {
+                    user.setSalary(Long.parseLong(request.getParameter("salary")));
+                }
             }
+
+            if(user.getFullName().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập tên nhân viên");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+
+            if(!isValidateNum(user.getCccd()) && user.getCccd().length()!=12){
+                model.put("errorMessage", "Vui lòng nhập đúng số CCCD!");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+            if(user.getAddress().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập địa chỉ!");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+            if(user.getPhone().isEmpty()){
+                model.put("errorMessage", "Số điện thoại không được bỏ trống");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+            if(!isValidateNum(user.getPhone()) && user.getPhone().length()!=10){
+                model.put("errorMessage", "Vui lòng nhập đúng số điện thoại!");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+            if(user.getEmail().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập email!");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+            if(user.getCoQuanBaoHiemThanhPho().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập tên cơ quan bảo hiểm!");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+            if(user.getMaSoThue().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập mã số thuế");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+            if(user.getSalary() == null){
+                model.put("errorMessage", "Vui lòng nhập lương nhân viên");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+            if(user.getSalary() == 0){
+                model.put("errorMessage", "Lương phải lớn hơn 0");
+                model.addAttribute("showToast", true);
+                return "redirect:/company-update-user/{id}";
+            }
+
+            userService.updateUserInfo(user);
+
+            return "redirect:/homepage-company";
         }
         else {
             return "redirect:homepage-personal";
@@ -323,61 +414,82 @@ public class HomePageController {
             randomPassword = randomPassword.substring(0, Math.min(randomPassword.length(), 8)).toUpperCase();
             User user = new User();
             Long companyAccountId = Long.parseLong(session.getAttribute("id").toString());
-            if(request.getParameter("full_name").isEmpty()){
-                model.put("errorMessage", "Vui lòng nhập tên nhân viên");
-                return "add-user";
-            }
+
             user.setFullName(request.getParameter("full_name"));
-            if(!isValidateNum(request.getParameter("citizen_id"))&&request.getParameter("citizen_id").length()!=12){
-                model.put("errorMessage", "Vui lòng nhập đúng số CCCD!");
-                return "add-user";
-            }
             user.setCccd(request.getParameter("citizen_id"));
-            if(request.getParameter("address").isEmpty()){
-                model.put("errorMessage", "Vui lòng nhập địa chỉ!");
-                return "add-user";
-            }
             user.setAddress(request.getParameter("address"));
-
-            if(request.getParameter("phone_number").isEmpty()){
-                model.put("errorMessage", "Số điện thoại không được bỏ trống");
-                return "add-user";
-            }
-            if(!isValidateNum(request.getParameter("phone_number"))&&request.getParameter("phone_number").length()!=10){
-                model.put("errorMessage", "Vui lòng nhập đúng số điện thoại!");
-                return "add-user";
-            }
             user.setPhone(request.getParameter("phone_number"));
-
-            if(request.getParameter("email").isEmpty()){
-                model.put("errorMessage", "Vui lòng nhập email!");
-                return "add-user";
-            }
             user.setEmail(request.getParameter("email"));
-
-            if(request.getParameter("cqbh").isEmpty()){
-                model.put("errorMessage", "Vui lòng nhập tên cơ quan bảo hiểm!");
-                return "add-user";
-            }
             user.setCoQuanBaoHiemThanhPho(request.getParameter("cqbh"));
-            if(request.getParameter("tax_code").isEmpty()){
-                model.put("errorMessage", "Vui lòng nhập mã số thuế");
-                return "add-user";
-            }
-
             user.setMaSoThue(request.getParameter("tax_code"));
-            if(request.getParameter("salary").isEmpty()){
-                model.put("errorMessage", "Vui lòng nhập lương nhân viên");
-                return "add-user";
+            if(!request.getParameter("salary").isEmpty()) {
+                user.setSalary(Long.parseLong(request.getParameter("salary")));
             }
-            user.setSalary(Long.parseLong(request.getParameter("salary")));
             user.setUsername(randomUsername);
             user.setPassword(randomPassword);
             user.setIsCompanyAccount(false);
-            System.out.println("Error "+model.getAttribute("errorMessage"));
+
+            if(user.getFullName().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập tên nhân viên");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
+
+            if(!isValidateNum(user.getCccd()) && user.getCccd().length()!=12){
+                model.put("errorMessage", "Vui lòng nhập đúng số CCCD!");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+            if(user.getAddress().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập địa chỉ!");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
+            if(user.getPhone().isEmpty()){
+                model.put("errorMessage", "Số điện thoại không được bỏ trống");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+            if(!isValidateNum(user.getPhone()) && user.getPhone().length()!=10){
+                model.put("errorMessage", "Vui lòng nhập đúng số điện thoại!");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
+            if(user.getEmail().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập email!");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
+            if(user.getCoQuanBaoHiemThanhPho().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập tên cơ quan bảo hiểm!");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+            if(user.getMaSoThue().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập mã số thuế");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
+            if(user.getSalary() == null){
+                model.put("errorMessage", "Vui lòng nhập lương nhân viên");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
+            if(user.getSalary() == 0){
+                model.put("errorMessage", "Lương phải lớn hơn 0");
+                model.addAttribute("showToast", true);
+                return "add-user";
+            }
+
             userService.addUserToCompany(user, companyAccountId);
             return "redirect:/homepage-company";
-        }else {
+        } else {
             return "redirect:homepage-personal";
         }
     }

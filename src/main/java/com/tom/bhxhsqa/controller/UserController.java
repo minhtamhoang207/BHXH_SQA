@@ -102,13 +102,13 @@ public class UserController {
 
         User user = new User();
         if(validInfo(registerDTO, model, request)){
-            user.setUsername(registerDTO.getUsername());
-            user.setPassword(registerDTO.getPassword());
-            user.setFullName(registerDTO.getFullName());
-            user.setCccd(registerDTO.getCccd());
-            user.setAddress(registerDTO.getAddress());
-            user.setPhone(registerDTO.getPhone());
-            user.setEmail(registerDTO.getEmail());
+            user.setUsername(registerDTO.getUsername().trim());
+            user.setPassword(registerDTO.getPassword().trim());
+            user.setFullName(registerDTO.getFullName().trim());
+            user.setCccd(registerDTO.getCccd().trim());
+            user.setAddress(registerDTO.getAddress().trim());
+            user.setPhone(registerDTO.getPhone().trim());
+            user.setEmail(registerDTO.getEmail().trim());
             user.setIsCompanyAccount(false);
 
             try {
@@ -124,83 +124,108 @@ public class UserController {
     }
 
     Boolean validInfo(RegisterDTO registerDTO, ModelMap model, HttpServletRequest request){
-        if(!registerDTO.getUsername().isEmpty()){
-            if(registerDTO.getUsername().length() < 6){
-                model.put("errorMessage", "Tên đăng nhập phải chứa từ 6 kí tự");
-                model.addAttribute("showToast", true);
-                return false;
-            }
+        if(registerDTO.getUsername().isEmpty() ||
+            registerDTO.getPassword().isEmpty() ||
+            registerDTO.getFullName().isEmpty() ||
+            registerDTO.getCccd().isEmpty() ||
+            registerDTO.getAddress().isEmpty() ||
+            registerDTO.getPhone().isEmpty() ||
+            registerDTO.getEmail().isEmpty()
+        ) {
+            model.put("errorMessage", "Bạn cần điền đầy đủ thông tin");
+            model.addAttribute("showToast", true);
+            return false;
         } else {
-            model.put("errorMessage", "Tên đăng nhập không được để trống");
-            model.addAttribute("showToast", true);
-            return false;
-        }
-        if(userRepository.findOneByUsername(registerDTO.getUsername())!= null){
-            model.put("errorMessage", "Tên đăng nhập đã tồn tại!");
-            model.addAttribute("showToast", true);
-            return false;
-        }
-        if(!registerDTO.getPassword().isEmpty()){
-            if(registerDTO.getPassword().length() < 6){
-                model.put("errorMessage", "Mật khẩu phải chứa từ 6 kí tự");
-                model.addAttribute("showToast", true);
-                return false;
-            } else {
-                if (!registerDTO.getPassword().equals(request.getParameter("confirm_password"))) {
-                    model.put("errorMessage", "Mật khẩu không khớp");
+            if(!registerDTO.getUsername().isEmpty()){
+                if(registerDTO.getUsername().length() < 6){
+                    model.put("errorMessage", "Tên đăng nhập phải chứa từ 6 kí tự");
                     model.addAttribute("showToast", true);
                     return false;
                 }
+            } else {
+                model.put("errorMessage", "Tên đăng nhập không được để trống");
+                model.addAttribute("showToast", true);
+                return false;
             }
-        } else {
-            model.put("errorMessage", "Vui lòng nhập mật khẩu");
-            model.addAttribute("showToast", true);
-            return false;
-        }
+            if(userRepository.findOneByUsername(registerDTO.getUsername())!= null){
+                model.put("errorMessage", "Tên đăng nhập đã tồn tại!");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+            if(!registerDTO.getPassword().isEmpty()){
+                if(registerDTO.getPassword().length() < 6){
+                    model.put("errorMessage", "Mật khẩu phải chứa từ 6 kí tự");
+                    model.addAttribute("showToast", true);
+                    return false;
+                } else {
+                    if (!registerDTO.getPassword().equals(request.getParameter("confirm_password"))) {
+                        model.put("errorMessage", "Mật khẩu không khớp");
+                        model.addAttribute("showToast", true);
+                        return false;
+                    }
+                }
+            } else {
+                model.put("errorMessage", "Vui lòng nhập mật khẩu");
+                model.addAttribute("showToast", true);
+                return false;
+            }
 
-        if(registerDTO.getFullName().isEmpty()){
-            model.put("errorMessage", "Vui lòng nhập Họ và tên");
-            model.addAttribute("showToast", true);
-            return false;
-        }
+            if(registerDTO.getFullName().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập Họ và tên");
+                model.addAttribute("showToast", true);
+                return false;
+            }
 
-        if(registerDTO.getCccd().isEmpty()){
-            model.put("errorMessage", "Vui lòng nhập số CCCD/CMND/Hộ chiếu");
-            model.addAttribute("showToast", true);
-            return false;
-        }
-        if(!registerDTO.getCccd().matches("[0-9]+")&& registerDTO.getCccd().length()!=12){
-            model.put("errorMessage", "Vui lòng nhập đúng số CCCD/CMND/Hộ chiếu");
-            model.addAttribute("showToast", true);
-            return false;
-        }
+            if(registerDTO.getCccd().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập số CCCD/CMND/Hộ chiếu");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+            if(!registerDTO.getCccd().matches("[0-9]+")&& registerDTO.getCccd().length()!=12){
+                model.put("errorMessage", "Vui lòng nhập đúng số CCCD/CMND/Hộ chiếu");
+                model.addAttribute("showToast", true);
+                return false;
+            }
 
-        if(registerDTO.getAddress().isEmpty()){
-            model.put("errorMessage", "Vui lòng nhập địa chỉ");
-            model.addAttribute("showToast", true);
-            return false;
-        }
+            if(registerDTO.getAddress().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập địa chỉ");
+                model.addAttribute("showToast", true);
+                return false;
+            }
 
-        if(registerDTO.getPhone().isEmpty()){
-            model.put("errorMessage", "Vui lòng nhập số điện thoại");
-            model.addAttribute("showToast", true);
-            return false;
-        }
-        if(!registerDTO.getPhone().matches("[0-9]+")&&registerDTO.getPhone().length()!=10){
-            model.put("errorMessage", "Số điện thoại chưa đúng!");
-            model.addAttribute("showToast", true);
-            return false;
-        }
-        if(registerDTO.getEmail().isEmpty()){
-            model.put("errorMessage", "Vui lòng nhập thư điện tử");
-            model.addAttribute("showToast", true);
-            return false;
-        }
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(registerDTO.getEmail());
-        if(!matcher.matches()){
-            model.put("errorMessage", "Vui lòng đúng định dạng thư điện tử");
-            model.addAttribute("showToast", true);
-            return false;
+            if(registerDTO.getPhone().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập số điện thoại");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+            if(userRepository.existsByPhone(registerDTO.getPhone())){
+                model.put("errorMessage", "Mỗi số điện thoại chỉ được đăng kí 1 lần");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+            if(!registerDTO.getPhone().matches("[0-9]+")&&registerDTO.getPhone().length()!=10){
+                model.put("errorMessage", "Số điện thoại sai định dạng");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+
+            if(registerDTO.getEmail().isEmpty()){
+                model.put("errorMessage", "Vui lòng nhập thư điện tử");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+
+            if(userRepository.existsByEmail(registerDTO.getEmail())){
+                model.put("errorMessage", "Mỗi email chỉ được đăng kí 1 lần");
+                model.addAttribute("showToast", true);
+                return false;
+            }
+            Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(registerDTO.getEmail());
+            if(!matcher.matches()){
+                model.put("errorMessage", "Vui lòng điền đúng định dạng thư điện tử");
+                model.addAttribute("showToast", true);
+                return false;
+            }
         }
         return true;
     }
