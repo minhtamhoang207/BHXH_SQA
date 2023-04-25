@@ -62,15 +62,11 @@
     <form action="" method="post">
 
         <div class="signup">
-            <div class="signup__head">
-                <div>
-                    <h3 class="signup__title">
-                        ĐĂNG KÝ
-                    </h3>
-                    <p class="signup__title2">Đăng ký sử dụng, điều chỉnh thông tin và ngừng sử dụng phương thức giao
-                        dịch điện tử trong lĩnh vực bảo hiểm xã hội</p>
-                </div>
-            </div>
+
+            <h3 class="signup__title">
+                ĐĂNG KÝ TÀI KHOẢN DOANH NGHIỆP
+            </h3>
+            <br>
 
             <div class="signup__body">
 
@@ -148,15 +144,6 @@
         </div>
 
     </form>
-
-<%--    <c:if test="${errorMessage != null}">--%>
-<%--        <div class="mess" id="message">--%>
-<%--            <div class="mess__tt">--%>
-<%--                <h2 class="mess__title">${errorMessage}</h2>--%>
-<%--                <div class="mess__btn" id="btnOk">OK</div>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </c:if>--%>
     <c:if test="${showToast}">
         <script>
             $(document).ready(function() {
@@ -168,12 +155,4 @@
     </c:if>
 </div>
 </body>
-<%--<script>--%>
-<%--    const mess = document.getElementById('message')--%>
-<%--    console.log(mess)--%>
-<%--    const btn = document.getElementById('btnOk')--%>
-<%--    btn.onclick = () => {--%>
-<%--        mess.style = 'display: none'--%>
-<%--    }--%>
-<%--</script>--%>
 </html>

@@ -79,6 +79,20 @@
       background: rgba(0, 0, 0, 0.08);
     }
 
+    .my-table {
+        border-collapse: collapse;
+    }
+
+    .my-table th,
+    .my-table td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+
+    .my-table th {
+        background-color: #f2f2f2;
+    }
+
   </style>
 
   <body>
@@ -103,23 +117,23 @@
     <script src="https://unpkg.com/ionicons@5.4.0/dist/ionicons.js"></script>
   </div>
   <div class="content__table" style="margin-top: 10px">
-      <table>
+      <table class="my-table">
         <tr style="background-color:#0a76b1;color: #fff">
             <td style="width: 2%; min-width:35px; text-align: center">Id</td>
             <td style="width: 3%; min-width:70px; text-align: center">Tên</td>
             <td style="width: 15%; min-width:250px; text-align: center">Email</td>
             <td style="width: 10%; min-width:100px; text-align: center">Lương</td>
-            <td style="width: 15%; min-width:280px; text-align: center">Thanh toán</td>
+            <td style="width: 15%; min-width:280px; text-align: center">Thanh toán bảo hiểm</td>
             <td style="width: 3%; min-width:70px; text-align: center">Chỉnh Sửa</td>
             <td style="width: 3%; min-width:70px; text-align: center">Xóa</td>
         </tr>
         <c:forEach items="${users}" var="user">
             <tr>
                 <td style="width: 2%; min-width:35px; text-align: center">${user.id}</td>
-                <td style="width: 3%; min-width:70px; text-align: center">${user.fullName}</td>
+                <td style="width: 10%; min-width:70px; text-align: center">${user.fullName}</td>
                 <td style="width: 15%; min-width:250px; text-align: center">${user.email}</td>
                 <td style="width: 10%; min-width:100px; text-align: center">${user.salary}</td>
-                <td style="width: 15%; min-width:270px; text-align: center">
+                <td style="width: 5%; min-width:270px; text-align: center">
                     <a href="/payment-company/${user.id}">
                         <img height="15"
                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzYNsCQCjquUoHwtpWZ-N4r4CI-RLWAZ0ozQ&usqp=CAU"/>

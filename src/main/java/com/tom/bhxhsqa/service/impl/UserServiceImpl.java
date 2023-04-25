@@ -42,9 +42,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public long login(String username, String password) {
         User user = userRepository.findOneByUsername(username);
-        if(user.getId() != null){
-            if(Objects.equals(password, user.getPassword())){
-                return user.getId();
+        if(user != null) {
+            if(user.getId() != null){
+                if(Objects.equals(password, user.getPassword())){
+                    return user.getId();
+                }
             }
         }
         return -1;
