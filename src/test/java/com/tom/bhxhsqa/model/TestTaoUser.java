@@ -50,7 +50,7 @@ class TestTaoUser {
     public void testSingleRow() {
         User user = new User();
         try {
-            user = userRepository.findOneByUsername("NguyenTan1");
+            user = userRepository.findOneByUsername("tamhm1");
             assertNotNull(user);
             assertEquals(user.getUsername(), "NguyenTan1");
             assertEquals(user.getCccd(), "31827391739812");
@@ -78,6 +78,39 @@ class TestTaoUser {
             user = userRepository.findOneByUsername("tamhm1");
             assertNull(user.getUsername(), "tamhm1");
             assertNull(user.getCccd(), "31827391739812");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void createUserCompany(){
+        User user = new User();
+        user.setUsername("NguyenTan123");
+        user.setPassword("12345678");
+        user.setFullName("Nguyen Van Tan");
+        user.setCccd("1246546784546");
+        user.setAddress("Thai Binh");
+        user.setPhone("0399589360");
+        user.setEmail("riptan2001@gmail.com");
+        user.setIsCompanyAccount(true);
+
+        try {
+            if(userRepository.findByUsername("NguyenTan123").isPresent()){
+                throw(new RuntimeException("Error: Tên đăng nhập đã được sử dụng"));
+            }
+            userRepository.save(user);
+            assertNotNull(userRepository.findById(user.getId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void testDeleteAccCompany() {
+        try {
+            User user = userRepository.findOneByUsername("tamhm1");
+            userRepository.deleteById(user.getId());
+            assertFalse(userRepository.existsById(user.getId()));
         } catch (Exception e) {
             e.printStackTrace();
         }

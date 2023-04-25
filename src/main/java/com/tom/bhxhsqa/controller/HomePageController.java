@@ -381,7 +381,7 @@ public class HomePageController {
                 return "redirect:/company-update-user/{id}";
             }
 
-            if(user.getSalary() == 0){
+            if(user.getSalary() <= 0){
                 model.put("errorMessage", "Lương phải lớn hơn 0");
                 model.addAttribute("showToast", true);
                 return "redirect:/company-update-user/{id}";
