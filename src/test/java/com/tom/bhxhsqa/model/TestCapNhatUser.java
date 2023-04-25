@@ -2,6 +2,7 @@ package com.tom.bhxhsqa.model;
 
 import com.tom.bhxhsqa.entity.User;
 import com.tom.bhxhsqa.repository.UserRepository;
+import com.tom.bhxhsqa.service.UserService;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -16,9 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class TestTaoUser {
+class TestCapNhatUser {
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     @Test
     @Order(1)
@@ -60,6 +64,39 @@ class TestTaoUser {
 
     @Test
     @Order(3)
+    public void testUpdate() {
+        User user = userRepository.findOneByUsername("tamhm1");
+        user.setId(user.getId());
+        user.setCccd("020207001111");
+        user.setAddress("Lang Son");
+        user.setIsCompanyAccount(false);
+
+        try {
+            userService.updateUserInfo(user);
+            assertNotNull(user);
+            assertEquals(user.getUsername(), "tamhm1");
+            assertEquals(user.getCccd(), "020207001111");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Order(4)
+    public void testFindUserUpdated() {
+        User user = new User();
+        try {
+            user = userRepository.findOneByUsername("tamhm1");
+            assertNotNull(user);
+            assertEquals(user.getUsername(), "tamhm1");
+            assertEquals(user.getCccd(), "020207001111");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @Order(5)
     public void testDelete() {
         try {
             User user = userRepository.findOneByUsername("tamhm1");
@@ -70,75 +107,13 @@ class TestTaoUser {
         }
     }
     @Test
-    @Order(4)
+    @Order(6)
     public void testDeleteSuccess() {
         User user;
         try {
             user = userRepository.findOneByUsername("tamhm1");
             assertNull(user.getUsername(), "tamhm1");
-            assertNull(user.getCccd(), "31827391739812");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    @Order(5)
-    public void createUserCompany(){
-        User user = new User();
-        user.setUsername("NguyenTan123");
-        user.setPassword("12345678");
-        user.setFullName("Nguyen Van Tan");
-        user.setCccd("1246546784546");
-        user.setAddress("Thai Binh");
-        user.setPhone("0399589360");
-        user.setEmail("riptan2001@gmail.com");
-        user.setIsCompanyAccount(true);
-
-        try {
-            if(userRepository.findByUsername("NguyenTan123").isPresent()){
-                throw(new RuntimeException("Error: Tên đăng nhập đã được sử dụng"));
-            }
-            userRepository.save(user);
-            assertNotNull(userRepository.findById(user.getId()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    @Order(6)
-    public void testFindUserCompany() {
-        User user = new User();
-        try {
-            user = userRepository.findOneByUsername("NguyenTan123");
-            assertNotNull(user);
-            assertEquals(user.getUsername(), "NguyenTan123");
-            assertEquals(user.getCccd(), "1246546784546");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    @Test
-    @Order(7)
-    public void testDeleteAccCompany() {
-        try {
-            User user = userRepository.findOneByUsername("NguyenTan123");
-            userRepository.deleteById(user.getId());
-            assertFalse(userRepository.existsById(user.getId()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    @Order(8)
-    public void testDeleteCompanySuccess() {
-        User user;
-        try {
-            user = userRepository.findOneByUsername("NguyenTan123");
-            assertNull(user.getUsername(), "NguyenTan123");
-            assertNull(user.getCccd(), "1246546784546");
+            assertNull(user.getCccd(), "020207001111");
         } catch (Exception e) {
             e.printStackTrace();
         }
