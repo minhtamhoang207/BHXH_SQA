@@ -45,7 +45,7 @@
                 <div class="row">
                     <div class="col-4 col-r">Số CCCD/CMND/Hộ chiếu</div>
                     <div class="col-8">
-                        <input path="" type="text" class="signup__input" value="${user.email}" placeholder=""
+                        <input path="" type="text" class="signup__input" value="${user.cccd}" placeholder=""
                                name="citizen_id">
                     </div>
                 </div>

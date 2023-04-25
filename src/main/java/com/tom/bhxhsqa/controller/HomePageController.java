@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -242,7 +243,8 @@ public class HomePageController {
             String currentDate = currentDate();
             model.put("transaction_code", transaction_code);
             model.put("payment_date", currentDate);
-            model.put("payment_amount", String.valueOf(salary));
+            model.put("payment_amount", NumberFormat.getCurrencyInstance(new Locale("vn", "VN"))
+                    .format(salary));
             return "payment-company";
         } else
             return "redirect:homepage-personal";
@@ -266,7 +268,13 @@ public class HomePageController {
             payment.setNoiDung(request.getParameter("content"));
             payment.setNgayThanhToan(request.getParameter("payment_date"));
             if (!request.getParameter("payment_amount").isEmpty()) {
-                payment.setSoTien(Double.parseDouble((request.getParameter("payment_amount"))));
+                NumberFormat currencyFormat = NumberFormat.getCurrencyInstance(new Locale("vi", "VN"));
+                try {
+                    double currencyDouble = currencyFormat.parse(request.getParameter("payment_amount")).doubleValue();
+                    payment.setSoTien(currencyDouble);
+                } catch (ParseException e) {
+                    payment.setSoTien(0.0);
+                }
             } else {
                 model.put("error_message", "Đã xảy ra lỗi");
             }

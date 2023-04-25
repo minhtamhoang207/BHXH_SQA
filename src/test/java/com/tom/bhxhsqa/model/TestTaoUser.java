@@ -50,9 +50,9 @@ class TestTaoUser {
     public void testSingleRow() {
         User user = new User();
         try {
-            user = userRepository.findOneByUsername("NguyenTan1");
+            user = userRepository.findOneByUsername("tamhm1");
             assertNotNull(user);
-            assertEquals(user.getUsername(), "NguyenTan1");
+            assertEquals(user.getUsername(), "tamhm1");
             assertEquals(user.getCccd(), "31827391739812");
         } catch (Exception e) {
             e.printStackTrace();
