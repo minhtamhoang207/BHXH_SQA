@@ -16,6 +16,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
     <title>Cập nhật thông tin nhân viên</title>
+    <link rel = "icon" href =
+            "https://baohiemxahoi.gov.vn/images/favicon.ico?rev=23"
+          type = "image/x-icon">
 </head>
 
 <body>
